@@ -14,7 +14,7 @@
   payment.val($(payment.children('option')[1]).val());
 
   tShirtDesign.find('option').first().val('default');
-  tShirtColor.prepend('<option value="default">Select Color</option>').prop('style', 'display:none');
+  tShirtColor.prepend('<option value="default">Select Color</option>').hide();
   tShirtColor.val('default');
 
 
@@ -46,19 +46,17 @@
     tShirtColor.find('option').each(function(){
       var optionText = $(this).text().toLowerCase().replace('♥', 'heart');
 
-      $(this).prop('style', 'display:none');
+      $(this).hide();
 
       if(new RegExp(selection).test(optionText)){
-        $(this).prop('style', 'display:block');
+        $(this).show();
       }
     });
 
-
     var displayProp = (selection !== 'default') ? 'block' : 'none';
 
-    tShirtColor.prop('style', 'display:' + displayProp);
+    tShirtColor.attr('style', 'display:' + displayProp);
     tShirtColor.val('default');
-    console.log(selection);
   });
 
 
@@ -67,23 +65,23 @@
     var creditCard = $('#credit-card');
     var parent = $(this).closest('fieldset');
 
-    $('div:has(> p)').children('p').prop('style', 'display:none');
+    $('div:has(> p)').children('p').hide();
 
     if(selection !== 'credit-card'){
-      creditCard.prop('style', 'display:none');
+      creditCard.hide();
 
       parent.find('p').each(function(){
         var textString = $(this).text().toLowerCase();
 
-        $(this).prop('style', 'display:none');
+        $(this).hide();
 
         if(new RegExp(selection).test(textString)){
-          $(this).prop('style', 'display:block');
+          $(this).show();
         }
       });
 
     }else{
-      creditCard.prop('style', 'display:block');
+      creditCard.show();
     }
   }
   payment.change(changePaymentMethod);
