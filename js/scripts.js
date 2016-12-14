@@ -5,6 +5,7 @@
   var tShirtColor = $('#color');
   var payment = $('#payment');
   var realTimeValidatedField = $('#name');
+  var activities = $('.activities');
 
 
   // sets focus on the first text field
@@ -60,6 +61,46 @@
   });
 
 
+  activities.on('click', 'input', function(event){
+
+    function getActivityStr(){
+      return $(this).parent().text().toLowerCase();
+    }
+
+    function getActivity(activityStr){
+      return activityStr.split(' ').reverse();
+    }
+
+    var target = this;
+    var checkboxes = activities.find('input');  // returns array of checkbox elements
+    var checked = $(this).is(':checked'); // determines whether the checkbox is being checked or unchecked
+    var selected = getActivity(getActivityStr.call(this))[1];  // isolates the target checkbox string's activity time
+    var total = 0;
+
+
+    checkboxes.each(function(){
+      var currActivityStr = getActivityStr.call(this);
+
+      if(getActivityStr.call(target) !== currActivityStr &&
+    getActivity(currActivityStr)[1] === selected){
+        $(this).attr('disabled', checked);
+      }
+
+      if($(this).is(':checked')){
+        var amount = Number(getActivity(currActivityStr)[0].replace('$', ''));
+
+        total += amount;
+      }
+    });
+
+    activities.find('.total').remove();
+
+    activities.append(function(){
+      return '<div class="total">Total: $' + total + '</div>';
+    });
+  });
+
+
   function changePaymentMethod(){
     var selection = $(this).val().replace(' ', '-');
     var creditCard = $('#credit-card');
@@ -91,7 +132,7 @@
   function formSubmit(event){
     var name = $('#name').val();
     var email = $('#mail');
-    var activities = $(this).find('.activities').find('input[type="checkbox"]');
+    var activitiesCheckbox = activities.find('input[type="checkbox"]');
     var paymentMethod = payment.val();
     var zipCode = $('#zip').val();
     var cvv = $('#cvv').val();
@@ -121,7 +162,7 @@
       formError('Please enter a valid email address.');
     }
 
-    activities.each(function(){
+    activitiesCheckbox.each(function(){
       if($(this).prop('checked')){
         activityChecked = true;
       }
