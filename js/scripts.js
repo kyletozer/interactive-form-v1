@@ -63,6 +63,7 @@
 
   activities.on('click', 'input', function(event){
 
+    // returns the activity checkbox info
     function getActivityStr(){
       return $(this).parent().text().toLowerCase();
     }
@@ -81,14 +82,15 @@
     checkboxes.each(function(){
       var currActivityStr = getActivityStr.call(this);
 
-      if(getActivityStr.call(target) !== currActivityStr &&
-    getActivity(currActivityStr)[1] === selected){
+      // first condition excludes the targeted checkbox from the loop
+      // second condition checks if the activity times strings are the same
+      if(getActivityStr.call(target) !== currActivityStr && getActivity(currActivityStr)[1] === selected){
         $(this).attr('disabled', checked);
       }
 
+      // if the checkbox is checked, convert currency string to a number and add that number to the amount variable
       if($(this).is(':checked')){
         var amount = Number(getActivity(currActivityStr)[0].replace('$', ''));
-
         total += amount;
       }
     });
