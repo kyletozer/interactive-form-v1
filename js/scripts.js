@@ -1,3 +1,6 @@
+'use strict';
+
+
 (function(){
   var form = $('form');
   var jobRole = $('#title');
@@ -75,7 +78,7 @@
     var target = this;
     var checkboxes = activities.find('input');  // returns array of checkbox elements
     var checked = $(this).is(':checked'); // determines whether the checkbox is being checked or unchecked
-    var selected = getActivity(getActivityStr.call(this))[1];  // isolates the target checkbox string's activity time
+    var selected = getActivity(getActivityStr.call(this))[2] + ' ' + getActivity(getActivityStr.call(this))[1];  // isolates the target checkbox string's activity time
     var total = 0;
 
 
@@ -84,7 +87,7 @@
 
       // first condition excludes the targeted checkbox from the loop
       // second condition checks if the activity times strings are the same
-      if(getActivityStr.call(target) !== currActivityStr && getActivity(currActivityStr)[1] === selected){
+      if(getActivityStr.call(target) !== currActivityStr && (getActivity(currActivityStr)[2] + ' ' + getActivity(currActivityStr)[1]) === selected){
         $(this).attr('disabled', checked);
       }
 
